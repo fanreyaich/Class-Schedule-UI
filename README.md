@@ -2,6 +2,8 @@
 
 一个可在电脑、手机浏览器和 Android App 中使用的离线课表看板。默认不含学校、班级、课程、教师、教室或个人日历；课表、作息和节假日数据可分别维护。
 
+> 推荐方式：先克隆本仓库，再将课表资料和修改目标交给 AI Agent 维护。Agent 可以按本 README 的数据边界完成编辑、检查、重新生成离线 HTML；你只需验收结果。
+
 ## 使用环境与打开方式
 
 | 目的 | 需要的环境 | 是否需要网络或命令 |
@@ -32,18 +34,37 @@
 | 修改课表后预览 | `index.html` |
 | Android 安装版 | 将 `outputs/课表空白模板_离线Demo.html` 作为本地 HTML 资源，用 [WebToApp](https://github.com/shiaho777/web-to-app) 打包 |
 
-## 给人阅读：手动填写规则
+## 快速开始
 
-### 30 秒快速开始
+### 路线 A：交给 AI Agent 维护（推荐）
 
-1. 先复制或下载 `outputs/课表空白模板_离线Demo.html`。
-2. 用浏览器打开它；无需账号、服务器或网络。
-3. 若要填写自己的课表，编辑以下三个数据文件。
-4. 在电脑上直接打开 `index.html` 检查页面。
+1. 在电脑终端克隆仓库；二选一即可：
+
+   ```powershell
+   git clone https://github.com/fanreyaich/Class-Schedule-UI.git
+   ```
+
+   或：
+
+   ```powershell
+   git clone https://gitee.com/fanreyaich/Class-Schedule-UI.git
+   ```
+
+2. 将克隆后的 `Class-Schedule-UI` 文件夹交给你的 AI 编码 Agent，并附上要更新的课表、作息或节假日资料。
+3. 直接对 Agent 说：`请先阅读 README 的“给 Agent 阅读：工作指南”和 docs/MAINTENANCE.md；按资料更新课表，生成离线 HTML，并告诉我输出文件路径。`
+4. Agent 应只修改对应的数据模块、检查数据、运行打包，然后交付 `outputs/课表空白模板_离线Demo.html`。
+5. 你在电脑上双击该 HTML 验收；满意后再让 Agent 提交或推送。除非你明确授权，Agent 不应发布、推送或将个人课表公开。
+
+### 路线 B：人工填写
+
+1. 先复制或下载 `outputs/课表空白模板_离线Demo.html`；双击即可使用空白课表。
+2. 要填写自己的课表时，编辑 `schedule.js`、`times.js` 和 `holidays.js` 三个数据文件。
+3. 在电脑上直接双击 `index.html` 检查修改后的效果。
+4. 确认无误后，按下方第 5 步生成新的离线单文件。
 5. 生成新的离线单文件：
 
    - 首次使用时，到 [Node.js 官网](https://nodejs.org/) 安装 **LTS** 版本，默认选项安装即可；安装后重新打开终端。
-   - 进入项目文件夹 `E:\AI objects\course-dashboard-public-demo`。最简单的方法是在该文件夹空白处按住 `Shift` 右键，选择“在终端中打开”或“在此处打开 PowerShell”。
+   - 进入项目文件夹。最简单的方法是在该文件夹空白处按住 `Shift` 右键，选择“在终端中打开”或“在此处打开 PowerShell”。
    - 输入以下命令并按回车：
 
      ```powershell
@@ -52,6 +73,8 @@
 
    - 看到 `已生成 outputs/课表空白模板_离线Demo.html` 即表示成功；使用或发送这个新文件，而不是旧文件。
    - 若看到“node 不是内部或外部命令”，说明 Node.js 未安装完成或终端未重开；安装/重开后再执行。该步骤不联网、不安装额外依赖。
+
+## 给人阅读：手动填写规则
 
 不要手动编辑 `outputs` 里的单文件。它是由源文件自动汇总生成的，下一次打包会覆盖它。
 
