@@ -1,25 +1,8 @@
-/* 通用示例作息，不代表任何学校。每个数组是开始、结束时间。 */
+/* 聚合模块：由三个可维护数据文件组装，通常不需要直接修改。 */
 globalThis.CAMPUS_CALENDAR={
-  common:{
-    1:["08:00","08:45"],2:["08:55","09:40"],
-    3:["10:00","10:45"],4:["10:55","11:40"],
-    5:["14:00","14:45"],6:["14:55","15:40"],
-    7:["16:00","16:45"],8:["16:55","17:40"]
-  },
-  lunch:["11:40","14:00"],
-  breakMinutes:30,
-  holidays:[
-    {name:"元旦",start:"2026-01-01",end:"2026-01-03"},
-    {name:"春节",start:"2026-02-15",end:"2026-02-23"},
-    {name:"清明节",start:"2026-04-04",end:"2026-04-06"},
-    {name:"劳动节",start:"2026-05-01",end:"2026-05-05"},
-    {name:"端午节",start:"2026-06-19",end:"2026-06-21"},
-    {name:"中秋节",start:"2026-09-25",end:"2026-09-27"},
-    {name:"国庆节",start:"2026-10-01",end:"2026-10-07"}
-  ],
-  workdays:["2026-01-04","2026-02-14","2026-02-28","2026-05-09","2026-09-20","2026-10-10"],
-  source:"https://www.gov.cn/zhengce/content/202511/content_7047091.htm",
-  pendingNote:"已按国务院办公厅《2026年部分节假日安排的通知》导入；学校停补课仍以校历为准。",
-  cancelledDates:[],
-  extraLessons:[]
+  ...TIMETABLE_TIMES,
+  ...HOLIDAY_CALENDAR,
+  pendingNote:HOLIDAY_CALENDAR.note,
+  cancelledDates:TIMETABLE_DATA.cancelledDates,
+  extraLessons:TIMETABLE_DATA.extraLessons
 };

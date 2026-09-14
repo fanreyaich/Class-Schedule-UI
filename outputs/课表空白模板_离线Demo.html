@@ -404,12 +404,14 @@ input,select{font:inherit;padding:10px;border:1px solid var(--line);border-radiu
 globalThis.TIMETABLE_DATA={
   semester:{title:"课表空白模板",startDate:null,totalWeeks:18},
   courses:[],
-  rules:[]
+  rules:[],
+  cancelledDates:[],
+  extraLessons:[]
 };
 
 ;
-/* 通用示例作息，不代表任何学校。每个数组是开始、结束时间。 */
-globalThis.CAMPUS_CALENDAR={
+/* 上课时间模块：仅维护节次起止、午间和课间判定阈值。 */
+globalThis.TIMETABLE_TIMES={
   common:{
     1:["08:00","08:45"],2:["08:55","09:40"],
     3:["10:00","10:45"],4:["10:55","11:40"],
@@ -417,7 +419,12 @@ globalThis.CAMPUS_CALENDAR={
     7:["16:00","16:45"],8:["16:55","17:40"]
   },
   lunch:["11:40","14:00"],
-  breakMinutes:30,
+  breakMinutes:30
+};
+
+;
+/* 节假日模块：2026年国务院办公厅公布的放假调休安排。 */
+globalThis.HOLIDAY_CALENDAR={
   holidays:[
     {name:"元旦",start:"2026-01-01",end:"2026-01-03"},
     {name:"春节",start:"2026-02-15",end:"2026-02-23"},
@@ -429,9 +436,17 @@ globalThis.CAMPUS_CALENDAR={
   ],
   workdays:["2026-01-04","2026-02-14","2026-02-28","2026-05-09","2026-09-20","2026-10-10"],
   source:"https://www.gov.cn/zhengce/content/202511/content_7047091.htm",
-  pendingNote:"已按国务院办公厅《2026年部分节假日安排的通知》导入；学校停补课仍以校历为准。",
-  cancelledDates:[],
-  extraLessons:[]
+  note:"已按国务院办公厅《2026年部分节假日安排的通知》导入；学校停补课仍以校历为准。"
+};
+
+;
+/* 聚合模块：由三个可维护数据文件组装，通常不需要直接修改。 */
+globalThis.CAMPUS_CALENDAR={
+  ...TIMETABLE_TIMES,
+  ...HOLIDAY_CALENDAR,
+  pendingNote:HOLIDAY_CALENDAR.note,
+  cancelledDates:TIMETABLE_DATA.cancelledDates,
+  extraLessons:TIMETABLE_DATA.extraLessons
 };
 
 ;

@@ -2,5 +2,7 @@
 globalThis.TIMETABLE_DATA={
   semester:{title:"课表空白模板",startDate:null,totalWeeks:18},
   courses:[],
-  rules:[]
+  rules:[],
+  cancelledDates:[],
+  extraLessons:[]
 };

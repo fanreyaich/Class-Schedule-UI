@@ -1,7 +1,7 @@
 const fs=require("node:fs"),path=require("node:path");
 const root=path.resolve(__dirname,".."),read=p=>fs.readFileSync(path.join(root,p),"utf8");
 const css=["src/styles.css","src/maintenance.css"].map(read).join("\n").replace(/<\/style/gi,"<\\/style");
-const scripts=["src/data/schedule.js","src/data/calendar.js","src/engine.js","src/progress-art.js","src/app.js","src/offline-router.js"];
+const scripts=["src/data/schedule.js","src/data/times.js","src/data/holidays.js","src/data/calendar.js","src/engine.js","src/progress-art.js","src/app.js","src/offline-router.js"];
 const js=scripts.map(read).join("\n;\n").replace(/<\/script/gi,"<\\/script");
 const favicon="data:image/svg+xml;base64,"+Buffer.from(read("public/favicon.svg")).toString("base64");
 const html='<!doctype html>\n<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f1e9"><title>课表空白模板 · 离线Demo</title><link rel="icon" href="'+favicon+'"><style>'+css+'</style></head><body data-page="home"><div id="app"></div><noscript>请使用支持JavaScript的浏览器打开。</noscript><script>globalThis.SCHEDULE_SINGLE_FILE=true;\n'+js+'</script></body></html>\n';

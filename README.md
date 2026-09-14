@@ -10,8 +10,10 @@
 
 ## 维护
 
-- src/data/schedule.js：填写学期、课程和排课；默认均为空。
-- src/data/calendar.js：通用示例作息及可选节假日；示例作息不代表任何学校。
+- src/data/schedule.js：填写学期、课程、排课和学校停补课例外。
+- src/data/times.js：填写每节课的上、下课时间及午间、课间规则。
+- src/data/holidays.js：维护国务院节假日、调休日期和官方来源。
+- src/data/calendar.js：自动汇总上述数据；通常不需编辑。
 - docs/MAINTENANCE.md：填写与发布说明。
 - node scripts/build-offline.cjs：重新生成单文件。
 
