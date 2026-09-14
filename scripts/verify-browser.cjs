@@ -30,14 +30,14 @@ const pages = ["index.html", "dashboard.html", "focus.html", "classic.html", "se
     const focus = await context.newPage();
     await focus.goto(pathToFileURL(path.join(root, "focus.html")).href, { waitUntil: "load" });
     if (!(await focus.locator("body").innerText()).includes("尚未配置课程")) failures.push("focus: expected blank state");
-    const button = focus.getByText("体验10分钟计时");
-    if (!await button.count()) failures.push("focus: demo button missing");
-    else {
-      await button.click();
-      await focus.waitForTimeout(50);
-      if (!(await focus.locator("body").innerText()).includes("专注体验 · 演示")) failures.push("focus: demo timer did not start");
-    }
+    if (await focus.getByText("体验10分钟计时").count()) failures.push("focus: demo timer should be absent");
     await focus.close();
+
+    const dashboard = await context.newPage();
+    await dashboard.goto(pathToFileURL(path.join(root, "dashboard.html")).href, { waitUntil: "load" });
+    const hasNationalDay = await dashboard.evaluate(() => CAMPUS_CALENDAR.holidays.some(item => item.name === "国庆节" && item.start === "2026-10-01" && item.end === "2026-10-07"));
+    if (!hasNationalDay) failures.push("dashboard: official holiday calendar missing");
+    await dashboard.close();
   } finally {
     await context.close();
   }

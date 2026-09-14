@@ -54,8 +54,6 @@ if(page==="focus"||page==="progress"){
  };
  $("#reset-custom").onclick=()=>{custom=null;save("public-template.custom",null);$("#form-error").textContent="";$("#custom-hint").textContent="已恢复自动状态。";tickFocus(now());};
  if(page==="focus"){
-   $(".custom-panel").insertAdjacentHTML("beforebegin",'<button type="button" id="demo-timer" class="mode-button">体验10分钟计时</button>');
-   $("#demo-timer").onclick=()=>{custom={label:"专注体验 · 演示",start:+now(),end:+now()+600000};save("public-template.custom",custom);tickFocus(now());};
    $("#toggle-mode").insertAdjacentHTML("afterend",'<a class="mode-button progress-link" href="./progress.html">进度全屏</a>');
  }else{
    document.body.classList.add("progress-only");
