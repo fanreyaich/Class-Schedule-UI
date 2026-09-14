@@ -1,0 +1,13 @@
+artifacts/
+node_modules/
+.cache/
+.env
+.env.*
+*.log
+*.xlsx
+*.xls
+*.docx
+*.pdf
+private/
+.DS_Store
+Thumbs.db
