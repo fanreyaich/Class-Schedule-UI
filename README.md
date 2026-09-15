@@ -72,7 +72,7 @@
 2. 将克隆后的 `Class-Schedule-UI` 文件夹交给你的 AI 编码 Agent，并附上要更新的课表、作息或节假日资料。
 3. 直接对 Agent 说：`请先阅读 README 的“给 Agent 阅读：工作指南”和 docs/MAINTENANCE.md；按资料更新课表，生成离线 HTML，并告诉我输出文件路径。`
 4. Agent 应只修改对应的数据模块、检查数据、运行打包，然后交付 `outputs/课表空白模板_离线Demo.html`。
-5. 你在电脑上双击该 HTML 验收；满意后再让 Agent 提交或推送。除非你明确授权，Agent 不应发布、推送或将个人课表公开。
+5. 在电脑上双击该 HTML 验收。若有 Android 使用需求，可继续查看 [HTML 封装为 APK 的方法](#html-to-apk)。
 
 ### 路线 B：人工排查（进阶）
 
@@ -119,7 +119,9 @@ node scripts/verify-browser.cjs
 
 页面已适配手机安全区域；沉浸模式和进度全屏适合竖屏使用。
 
-### 用 WebToApp 打包为 Android App
+<a id="html-to-apk"></a>
+
+### 将 HTML 封装为 Android APK（WebToApp）
 
 本项目推荐使用 [WebToApp](https://github.com/shiaho777/web-to-app) 的 **HTML** 类型：它会将本地静态文件打入 APK，不需要远程网址。
 
@@ -151,7 +153,7 @@ WebToApp 的 HTML 项目支持本地 HTML/CSS/JS 文件、默认 `index.html` �
 - 改排课前检查课程 ID、周次、星期、节次、日期格式与时间顺序。
 - 改动 `times.js` 后，检查所有 `rules` 与 `extraLessons` 引用的节次仍存在。
 - 节假日与补课是两套数据：`workdays` 不等于课程；需要补课时添加 `extraLessons`。
-- 公开前扫描课程、教师、教室、校区、学号、个人路径、截图、原始 Excel/Word/PDF 和浏览器配置，避免将个人数据提交或打包。
+- 输出或分享前扫描课程、教师、教室、校区、学号、个人路径、截图、原始 Excel/Word/PDF 和浏览器配置，避免将个人数据写入离线 HTML 或 APK。
 
 ### 必经验证与交付
 
@@ -159,7 +161,7 @@ WebToApp 的 HTML 项目支持本地 HTML/CSS/JS 文件、默认 `index.html` �
 2. 运行 `node scripts/build-offline.cjs`；只交付新生成的 `outputs/课表空白模板_离线Demo.html`。
 3. 有浏览器验收环境时运行 `node scripts/verify-browser.cjs`。
 4. 说明本次改动涉及的模块、数据来源和输出路径。
-5. 仅在用户明确要求时执行 `git commit`、`git push`、发布网站或构建/分发 APK；任何外部发布前再次确认脱敏范围。
+5. 向用户报告改动模块、数据来源、验证结果与新生成 HTML 的位置。
 
 ## 页面一览
 
