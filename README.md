@@ -55,69 +55,18 @@
 4. Agent 应只修改对应的数据模块、检查数据、运行打包，然后交付 `outputs/课表空白模板_离线Demo.html`。
 5. 你在电脑上双击该 HTML 验收；满意后再让 Agent 提交或推送。除非你明确授权，Agent 不应发布、推送或将个人课表公开。
 
-### 路线 B：人工填写
+### 路线 B：人工排查（进阶）
 
-1. 先复制或下载 `outputs/课表空白模板_离线Demo.html`；双击即可使用空白课表。
-2. 要填写自己的课表时，编辑 `schedule.js`、`times.js` 和 `holidays.js` 三个数据文件。
-3. 在电脑上直接双击 `index.html` 检查修改后的效果。
-4. 确认无误后，按下方第 5 步生成新的离线单文件。
-5. 生成新的离线单文件：
+这条路线不用于日常填写课表。仅在你要核查 Agent 的修改、定位显示问题，或暂时无法使用 Agent 时使用。
 
-   - 首次使用时，到 [Node.js 官网](https://nodejs.org/) 安装 **LTS** 版本，默认选项安装即可；安装后重新打开终端。
-   - 进入项目文件夹。最简单的方法是在该文件夹空白处按住 `Shift` 右键，选择“在终端中打开”或“在此处打开 PowerShell”。
-   - 输入以下命令并按回车：
+1. 先双击 `index.html`，确认问题能否复现。
+2. 仅按问题类别查看对应文件：课程与排课看 `src/data/schedule.js`，节次时间看 `src/data/times.js`，法定假日看 `src/data/holidays.js`。
+3. 修改前备份文件；修改后运行 `node scripts/build-offline.cjs`，再打开新生成的离线 HTML 核对。
+4. 字段格式、补课和停课的完整规则请看 [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md)，不建议凭猜测修改。
 
-     ```powershell
-     node scripts/build-offline.cjs
-     ```
+## 人工排查边界
 
-   - 看到 `已生成 outputs/课表空白模板_离线Demo.html` 即表示成功；使用或发送这个新文件，而不是旧文件。
-   - 若看到“node 不是内部或外部命令”，说明 Node.js 未安装完成或终端未重开；安装/重开后再执行。该步骤不联网、不安装额外依赖。
-
-## 给人阅读：手动填写规则
-
-不要手动编辑 `outputs` 里的单文件。它是由源文件自动汇总生成的，下一次打包会覆盖它。
-
-### 只改这三个数据模块
-
-| 文件 | 你在这里填写什么 | 不要在这里填写什么 |
-| --- | --- | --- |
-| [`src/data/schedule.js`](src/data/schedule.js) | 学期、课程、每周排课、停课、补课 | 每节课钟点、法定节假日 |
-| [`src/data/times.js`](src/data/times.js) | 各节的上课/下课时间、午间与课间规则 | 课程名称、教学周 |
-| [`src/data/holidays.js`](src/data/holidays.js) | 法定节假日、调休工作日、官方通知链接 | 学校的补课安排 |
-
-`src/data/calendar.js` 会自动汇总上述内容，通常不用修改。
-
-### 填课表的规则
-
-在 `schedule.js` 中，`startDate` 必须是第一教学周的周一，格式为 `YYYY-MM-DD`；`totalWeeks` 为 1 到 60 的整数。
-
-每门课程先写进 `courses`，再在 `rules` 排课。课程 `id` 必须唯一；每条排课的 `courseId` 必须对应已有课程。`weekday` 用 1 至 7 表示周一至周日；`startPeriod` 和 `endPeriod` 必须是 `times.js` 中存在的节次；`weeks` 不得超出教学周范围或重复。
-
-```js
-courses: [
-  {id:"DEMO001",name:"示例课程",color:"#c96442"}
-],
-rules: [
-  {courseId:"DEMO001",weekday:1,startPeriod:1,endPeriod:2,weeks:[1,2],room:"示例教室",teacher:"示例教师"}
-]
-```
-
-学校临时停课使用 `cancelledDates:["YYYY-MM-DD"]`；补课使用 `extraLessons`，其字段与 `rules` 相同，另加实际 `date`。调休日只会在日历中展示，**不会自动生成课程**；确需上课时，请明确写入 `extraLessons`。
-
-### 填上课时间的规则
-
-`times.js` 的每个节次采用 `["HH:MM","HH:MM"]` 格式，统一 24 小时制，开始时间必须早于结束时间。新增晚课时，先新增节次，再在课表规则中引用该节号。
-
-`lunch` 只决定页面何时显示“午间”；`breakMinutes` 只决定两课之间多长间隔仍显示“课间”，两者不会改变课程实际时间。
-
-### 填节假日的规则
-
-每个假期以 `{name,start,end}` 表示，日期均为 `YYYY-MM-DD`，跨多天只写一项。当前 `holidays.js` 已写入国务院办公厅公布的 2026 年安排；新年度通知发布后，整体更新 `holidays`、`workdays`、`source` 和 `note`。
-
-法定节假日只作提示。学校停课、补课、考试或特殊教学安排，应以学校校历和通知为准。
-
-完整字段说明见 [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md)。
+不要直接改 `outputs` 中的单文件，也通常不需要改 `src/data/calendar.js`。`calendar.js` 只是汇总层；将故障现象、原始课表资料和预期结果交给 Agent 处理，比人工批量填写更稳妥。
 
 ## 电脑端使用
 
